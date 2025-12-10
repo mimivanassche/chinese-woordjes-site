@@ -73,22 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
       // Chinees
       const tdCh = document.createElement('td');
       tdCh.textContent = item.chinees;
+      // Voeg geluidsicoon toe naast de Chinese tekens
+      const chIcon = document.createElement('span');
+      chIcon.textContent = '🔊';
+      chIcon.classList.add('audio-icon');
+      chIcon.setAttribute('title', 'Luister Chinees');
+      chIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // gebruik de Chinese tekens voor uitspraak
+        speakText(item.chinees, 'zh-CN');
+      });
+      tdCh.appendChild(chIcon);
       tr.appendChild(tdCh);
-      // Pinyin
+      // Pinyin (alleen tekst zonder audio)
       const tdPy = document.createElement('td');
       tdPy.textContent = item.pinyin;
-      // Voeg geluidsicoon toe naast de pinyin (Chinees)
-      const pyIcon = document.createElement('span');
-      pyIcon.textContent = '🔊';
-      pyIcon.classList.add('audio-icon');
-      pyIcon.setAttribute('title', 'Luister Chinees');
-      pyIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // gebruik Chinese tekst of pinyin als fallback
-        const chineseText = item.chinees || item.pinyin;
-        speakText(chineseText, 'zh-CN');
-      });
-      tdPy.appendChild(pyIcon);
       tr.appendChild(tdPy);
       // Emoji
       const tdEm = document.createElement('td');
