@@ -58,6 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
       // Nederlands
       const tdNl = document.createElement('td');
       tdNl.textContent = item.nederlands;
+      // Voeg geluidsicoon toe naast het Nederlandse woord
+      const nlIcon = document.createElement('span');
+      nlIcon.textContent = '🔊';
+      nlIcon.classList.add('audio-icon');
+      nlIcon.setAttribute('title', 'Luister Nederlands');
+      nlIcon.addEventListener('click', (e) => {
+        // voorkom dat de klik het rijselectiegedrag beïnvloedt
+        e.stopPropagation();
+        speakText(item.nederlands, 'nl-NL');
+      });
+      tdNl.appendChild(nlIcon);
       tr.appendChild(tdNl);
       // Chinees
       const tdCh = document.createElement('td');
@@ -66,32 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
       // Pinyin
       const tdPy = document.createElement('td');
       tdPy.textContent = item.pinyin;
-      tr.appendChild(tdPy);
-      // Audio: voeg twee speaker iconen toe voor Nederlands en Chinees
-      const tdAudio = document.createElement('td');
-      // Nederlands speaker (vlag van Nederland als icoon)
-      const nlIcon = document.createElement('span');
-      nlIcon.textContent = '🇳🇱';
-      nlIcon.classList.add('audio-icon');
-      nlIcon.setAttribute('title', 'Luister Nederlands');
-      nlIcon.addEventListener('click', (e) => {
-        // Voorkom dat de klik het rijselectiegedrag beïnvloedt
+      // Voeg geluidsicoon toe naast de pinyin (Chinees)
+      const pyIcon = document.createElement('span');
+      pyIcon.textContent = '🔊';
+      pyIcon.classList.add('audio-icon');
+      pyIcon.setAttribute('title', 'Luister Chinees');
+      pyIcon.addEventListener('click', (e) => {
         e.stopPropagation();
-        speakText(item.nederlands, 'nl-NL');
-      });
-      tdAudio.appendChild(nlIcon);
-      // Chinese speaker (vlag van China als icoon)
-      const zhIcon = document.createElement('span');
-      zhIcon.textContent = '🇨🇳';
-      zhIcon.classList.add('audio-icon');
-      zhIcon.setAttribute('title', 'Luister Chinees');
-      zhIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
+        // gebruik Chinese tekst of pinyin als fallback
         const chineseText = item.chinees || item.pinyin;
         speakText(chineseText, 'zh-CN');
       });
-      tdAudio.appendChild(zhIcon);
-      tr.appendChild(tdAudio);
+      tdPy.appendChild(pyIcon);
+      tr.appendChild(tdPy);
       // Emoji
       const tdEm = document.createElement('td');
       tdEm.textContent = item.emoji;
