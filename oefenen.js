@@ -29,8 +29,25 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function speakText(text, lang) {
     if (!window.speechSynthesis) return;
+    // Cancel any ongoing speech to ensure the next utterance plays immediately
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
+    // Try to select a voice matching the requested language
+    const voices = window.speechSynthesis.getVoices();
+    if (Array.isArray(voices) && voices.length > 0) {
+      // find a voice whose language starts with the requested language code (case-insensitive)
+      const targetLang = lang.toLowerCase();
+      const match = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(targetLang));
+      if (match) {
+        utterance.voice = match;
+        utterance.lang = match.lang;
+      } else {
+        // fallback: set lang property to the requested code
+        utterance.lang = lang;
+      }
+    } else {
+      utterance.lang = lang;
+    }
     window.speechSynthesis.speak(utterance);
   }
 
