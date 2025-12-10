@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     detailPinyin.textContent = item.pinyin;
     detailEmoji.textContent = item.emoji;
     detailSection.hidden = false;
-    // Scroll naar detailsectie zodat zichtbaar is op mobiele apparaten
-    detailSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll naar boven zodat emoji onmiddellijk zichtbaar is op mobiele apparaten
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Maak voor elk woord een knop
