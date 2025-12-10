@@ -21,6 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentCategoryItems = [];
   let currentIndex = 0;
 
+  /**
+   * Spreek de opgegeven tekst hardop met de gegeven taalcode.
+   * Deze functie maakt gebruik van de Web Speech API (speechSynthesis).
+   * @param {string} text - De tekst die uitgesproken moet worden
+   * @param {string} lang - De taalcode, bijvoorbeeld 'nl-NL' of 'zh-CN'
+   */
+  function speakText(text, lang) {
+    if (!window.speechSynthesis) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    window.speechSynthesis.speak(utterance);
+  }
+
   // Maak een knop voor elke categorie
   Object.keys(oefenenWords).forEach(category => {
     const btn = document.createElement('button');
@@ -54,6 +67,31 @@ document.addEventListener('DOMContentLoaded', () => {
       const tdPy = document.createElement('td');
       tdPy.textContent = item.pinyin;
       tr.appendChild(tdPy);
+      // Audio: voeg twee speaker iconen toe voor Nederlands en Chinees
+      const tdAudio = document.createElement('td');
+      // Nederlands speaker (vlag van Nederland als icoon)
+      const nlIcon = document.createElement('span');
+      nlIcon.textContent = '🇳🇱';
+      nlIcon.classList.add('audio-icon');
+      nlIcon.setAttribute('title', 'Luister Nederlands');
+      nlIcon.addEventListener('click', (e) => {
+        // Voorkom dat de klik het rijselectiegedrag beïnvloedt
+        e.stopPropagation();
+        speakText(item.nederlands, 'nl-NL');
+      });
+      tdAudio.appendChild(nlIcon);
+      // Chinese speaker (vlag van China als icoon)
+      const zhIcon = document.createElement('span');
+      zhIcon.textContent = '🇨🇳';
+      zhIcon.classList.add('audio-icon');
+      zhIcon.setAttribute('title', 'Luister Chinees');
+      zhIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const chineseText = item.chinees || item.pinyin;
+        speakText(chineseText, 'zh-CN');
+      });
+      tdAudio.appendChild(zhIcon);
+      tr.appendChild(tdAudio);
       // Emoji
       const tdEm = document.createElement('td');
       tdEm.textContent = item.emoji;

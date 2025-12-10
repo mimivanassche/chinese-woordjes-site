@@ -140,6 +140,15 @@ main {
     font-size: 2rem;
 }
 
+/* Stijlen voor audio-icoontjes in de tabel */
+.audio-icon {
+    cursor: pointer;
+    margin: 0 0.25rem;
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+
 /* Stijlen voor emoji-overlay */
 .emoji-overlay {
     position: fixed;
